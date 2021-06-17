@@ -111,6 +111,30 @@ def get_google_forecast(region, output_units={"temp": "c", "speed": "kph"}):
         wind,
     )
 
+    # Convert wind speed units if necessary
+    for idx, _ in enumerate(data["curves"]["wind"]):
+        data["curves"]["wind"][idx] = list(data["curves"]["wind"][idx])
+
+        if "km/h" in data["curves"]["wind"][idx][0]:
+            data["curves"]["wind"][idx][0] = float(
+                data["curves"]["wind"][idx][0].replace(" km/h", "")
+            )
+
+            if output_units["speed"] == "mph":
+                data["curves"]["wind"][idx][0] = _convert_kph_to_mph(
+                    data["curves"]["wind"][idx][0]
+                )
+
+        else:
+            data["curves"]["wind"][idx][0] = float(
+                data["curves"]["wind"][idx][0].replace(" mph", "")
+            )
+
+            if output_units["speed"] == "kph":
+                data["curves"]["wind"][idx][0] = _convert_mph_to_kph(
+                    data["curves"]["wind"][idx][0]
+                )
+
     return data
 
 
