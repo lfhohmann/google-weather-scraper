@@ -1,4 +1,3 @@
-from units_converters import *
 from bs4 import BeautifulSoup as bs
 import requests
 import re
@@ -7,6 +6,7 @@ import re
 This code is heavily based on Dniamir's work
 https://github.com/dniamir/GoogleWeather
 """
+
 
 def _convert_mph_to_kph(mph):
     return round(mph * 1.6, 1)
