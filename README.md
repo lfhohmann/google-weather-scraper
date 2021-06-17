@@ -9,11 +9,11 @@ It also has automatic units detection and conversion (hourly forecasts still don
 The main function `get_google_forecast()` accepts an optional `output_units` parameter which has to be a dictionary with the following structure:
 
 + `temp:`
-    + `c` for Celsius
-    + `f` for Farenheit
+  + `c` for Celsius
+  + `f` for Farenheit
 + `speed:`
-    + `mph` for Miles per Hour
-    + `kph` for Kilometers per Hour
+  + `mph` for Miles per Hour
+  + `kph` for Kilometers per Hour
 
 ### Note
 
