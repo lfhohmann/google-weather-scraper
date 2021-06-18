@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup as bs
+from pprint import pprint
 import requests
 import re
 
@@ -41,9 +42,11 @@ def get_google_forecast(region, output_units={"temp": "c", "speed": "kph"}):
     data = {}
     data["region"] = soup.find("div", attrs={"id": "wob_loc"}).text
     data["temp"] = float(soup.find("span", attrs={"id": "wob_tm"}).text)
-    data["dayhour"] = soup.find("div", attrs={"id": "wob_dts"}).text
+    data["datetime"] = soup.find("div", attrs={"id": "wob_dts"}).text
     data["weather_now"] = soup.find("span", attrs={"id": "wob_dc"}).text
-    data["precipitation"] = soup.find("span", attrs={"id": "wob_pp"}).text
+    data["precip"] = float(
+        soup.find("span", attrs={"id": "wob_pp"}).text.replace("%", "")
+    )
     data["humidity"] = float(
         soup.find("span", attrs={"id": "wob_hm"}).text.replace("%", "")
     )
@@ -88,7 +91,7 @@ def get_google_forecast(region, output_units={"temp": "c", "speed": "kph"}):
 
         next_days.append(
             {
-                "name": day_name,
+                "day": day_name,
                 "weather": weather,
                 "max_temp": max_temp,
                 "min_temp": min_temp,
@@ -104,6 +107,11 @@ def get_google_forecast(region, output_units={"temp": "c", "speed": "kph"}):
     data["curves"]["precip"] = re.findall(
         r"([0-9]+)% (\w+-*\w*),* ([0-9:]+\s*\w*)", precip
     )
+
+    # Convert values from strings to numbers
+    for idx, _ in enumerate(data["curves"]["precip"]):
+        data["curves"]["precip"][idx] = list(data["curves"]["precip"][idx])
+        data["curves"]["precip"][idx][0] = float(data["curves"]["precip"][idx][0])
 
     wind = str(soup.find("div", attrs={"id": "wob_wg", "class": "wob_noe"}))
     data["curves"]["wind"] = re.findall(
@@ -139,4 +147,4 @@ def get_google_forecast(region, output_units={"temp": "c", "speed": "kph"}):
 
 
 if __name__ == "__main__":
-    print(get_google_forecast("curitiba"))
+    pprint(get_google_forecast("curitiba"))
