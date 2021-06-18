@@ -1,8 +1,8 @@
 # Google Weather Forecast Scraper
 
-Simple BeautifulSoup scraper for Google weather forecast data, including hourly precipitation probability and wind forecast for a week (hourly temperatures are planed to be implemented).
+Simple BeautifulSoup scraper for Google weather forecast data, including hourly precipitation probability and wind forecast for a week (hourly temperatures are planed to be implemented, but still haven't figured out how).
 
-It also has automatic units detection and conversion (hourly forecasts still don't have this feature)
+It also has automatic units detection and conversion
 
 ## Units
 
